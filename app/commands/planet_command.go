@@ -7,7 +7,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var PlanetFlags = []cli.Flag{
+var Flags = []cli.Flag{
 	&cli.BoolFlag{
 		Name:  "all",
 		Value: true,
@@ -20,7 +20,7 @@ var PlanetFlags = []cli.Flag{
 var PlanetCommand = cli.Command{
 	Name:    "planets",
 	Aliases: []string{"pln", "p"},
-	Flags:   PlanetFlags,
+	Flags:   Flags,
 	Action: func(c *cli.Context) error {
 		all := c.Bool("all")
 

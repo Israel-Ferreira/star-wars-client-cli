@@ -9,7 +9,7 @@ import (
 	"star-wars-client/models"
 )
 
-const URL = "https://swapi.dev/api/planets?format=json"
+
 
 func GetPlanets() ([]models.Planet) {
 	responses := []models.Planet{}

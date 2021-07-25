@@ -8,6 +8,8 @@ import (
 )
 
 
+
+
 func CriarCli() *cli.App {
 	app := &cli.App{
 		Name: "star-wars-cli",
@@ -20,6 +22,7 @@ func CriarCli() *cli.App {
 
 		Commands: []*cli.Command{
 			&commands.PlanetCommand,
+			&commands.PeopleCommand,
 		},
 	}
 
