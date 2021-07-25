@@ -3,71 +3,66 @@ package services
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
-	"net/http"
+	"star-wars-client/exceptions"
 	"star-wars-client/models"
 )
 
 
 
-func GetPlanets() ([]models.Planet) {
+func GetPlanets() ([]models.Planet, error) {
 	responses := []models.Planet{}
 
-	totalPages := 10
+	page := 1
 
-	for page := 1; page <= totalPages; page++ {
-
+	for {
 		planetResult := models.PlanetResult{}
+		url := fmt.Sprintf("%s/%s?format=json&page=%d",URL, "planets",page)
 
-		url := fmt.Sprintf("%s&page=%d",URL, page)
-		resp, errorResp := http.Get(url)
 
-		if errorResp != nil {
-			log.Fatalln("Err: ", errorResp)
+		fmt.Println(url)
+
+		resp, err := MakeGetRequest(url)
+
+
+		if err == exceptions.NotFoundException{
+			break
+		}else if  err !=  nil{
+			return nil, err
 		}
 
-		body := deserializeJson(*resp)
 
-		json.Unmarshal(body, &planetResult)
+		if errBody := json.Unmarshal(resp, &planetResult); errBody != nil {
+			return nil, errBody
+		}
+
 
 		responses = append(responses, planetResult.Planets...)
+		page++
 	}
 
-	return responses
+
+	return responses, nil
+
 
 }
 
 func SearchPlanet(name string) models.PlanetResult {
-	url := fmt.Sprintf("%s&search=%s", URL, name)
+	url := fmt.Sprintf("%s/%s?format=json&search=%s", URL, "planets", name)
 
 	var results models.PlanetResult
 
-	resp, err := http.Get(url)
+	resp, err := MakeGetRequest(url)
 
 	if err != nil {
 		log.Fatalln("err: ", err)
 	}
 
-	body := deserializeJson(*resp)
-	
 
-	json.Unmarshal(body, &results)
+
+	json.Unmarshal(resp, &results)
 
 	return results
 
 }
 
-func deserializeJson(resp http.Response) []byte {
-
-	defer resp.Body.Close()
-
-	body, errBody := ioutil.ReadAll(resp.Body)
-
-	if errBody != nil {
-		log.Fatalln("Erro ao parsear o json: ", errBody)
-	}
-
-
-	return body
-}

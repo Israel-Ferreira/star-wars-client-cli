@@ -3,6 +3,7 @@ package commands
 import (
 	"fmt"
 	"star-wars-client/services"
+	"star-wars-client/utils"
 
 	"github.com/urfave/cli/v2"
 )
@@ -34,7 +35,9 @@ var PlanetCommand = cli.Command{
 			}
 
 		} else if all {
-			resp := services.GetPlanets()
+			resp, err := services.GetPlanets()
+
+			utils.HandleErrors(err, "Erro ao obter todos os personagens")
 
 			for _, result := range resp {
 				fmt.Printf("Nome: %s, Climate: %s,  \n", result.Name, result.Climate)

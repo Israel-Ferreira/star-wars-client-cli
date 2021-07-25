@@ -4,8 +4,8 @@ package models
 
 type Planet struct {
 	Name string `json:"name"`
-	RotationalPeriod rune `json:"rotational_period"`
-	OrbitalPeriod rune `json:"orbital_period"`
+	RotationalPeriod string `json:"rotational_period"`
+	OrbitalPeriod string `json:"orbital_period"`
 	Climate string `json:"climate"`
 	Gravity string `json:"gravity"`
 	Terrain string `json:"terrain"`

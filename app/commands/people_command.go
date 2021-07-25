@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"star-wars-client/models"
 	"star-wars-client/services"
+	"star-wars-client/utils"
 
 	"github.com/urfave/cli/v2"
 )
@@ -26,19 +27,16 @@ var PeopleCommand = cli.Command{
 		} else if all {
 			resp, err := services.GetPersons()
 
-			if err != nil {
-				return err
-			}
-
+			utils.HandleErrors(err, "Erro ao Obter os Personagens na API")
+	
 			results = append(results, resp...)
 
-		}
-
-		if len(results) > 0 {
 			for _, person := range results {
 				fmt.Println("Nome: ", person.Name)
 			}
+
 		}
+
 
 		return nil
 	},
