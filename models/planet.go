@@ -13,6 +13,11 @@ type Planet struct {
 
 
 
+type StarshipResult struct {
+	Result
+	Starships []Starship `json:"results"`
+}
+
 
 type PlanetResult struct {
 	Result

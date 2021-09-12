@@ -23,6 +23,7 @@ func CriarCli() *cli.App {
 		Commands: []*cli.Command{
 			&commands.PlanetCommand,
 			&commands.PeopleCommand,
+			&commands.StarshipCommand,
 		},
 	}
 
